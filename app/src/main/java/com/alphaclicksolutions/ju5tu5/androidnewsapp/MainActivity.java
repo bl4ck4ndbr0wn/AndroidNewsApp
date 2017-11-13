@@ -1,13 +1,12 @@
 package com.alphaclicksolutions.ju5tu5.androidnewsapp;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.graphics.*;
+
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.Adapter.ListSourceAdapter;
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.Common.Common;
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.Interface.NewsService;
@@ -15,9 +14,11 @@ import com.alphaclicksolutions.ju5tu5.androidnewsapp.Model.WebSite;
 import com.google.gson.Gson;
 
 import dmax.dialog.SpotsDialog;
+import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.support.annotation.NonNull;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     NewsService mService;
     ListSourceAdapter adapter;
-    AlertDialog dialog;
+    SpotsDialog dialog;
     SwipeRefreshLayout swipeLayout;
 
     @Override
@@ -39,19 +40,19 @@ public class MainActivity extends AppCompatActivity {
         mService = Common.getNewsService();
 
         //init View
-        swipeLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
+        swipeLayout = findViewById(R.id.swipeRefresh);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 loadWebsiteSource(true);
             }
         });
-        listWebsite = (RecyclerView)findViewById(R.id.list_source);
+        listWebsite = findViewById(R.id.list_source);
         listWebsite.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         listWebsite.setLayoutManager(layoutManager);
 
-        SpotsDialog dialog = new SpotsDialog(this);
+        dialog = new SpotsDialog(this);
         
         loadWebsiteSource(false);
     }
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             String cache = Paper.book().read("cache");
             if(cache != null && !cache.isEmpty())  //if have cache
             {
-                ContactsContract.CommonDataKinds.Website website = new Gson().fromJson(cache, ContactsContract.CommonDataKinds.Website.class);
+                WebSite website = new Gson().fromJson(cache,WebSite.class);
                 adapter = new ListSourceAdapter(getBaseContext(),website);
                 adapter.notifyDataSetChanged();
                 listWebsite.setAdapter(adapter);
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 //fetch new data
                 mService.getSources().enqueue(new Callback<WebSite>() {
                     @Override
-                    public void onResponse(Call<WebSite> call, Response<WebSite> response) {
+                    public void onResponse(@NonNull Call<WebSite> call,@NonNull Response<WebSite> response) {
                         adapter = new ListSourceAdapter(getBaseContext(),response.body());
                         adapter.notifyDataSetChanged();
                         listWebsite.setAdapter(adapter);
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<WebSite> call, Throwable t) {
+                    public void onFailure(@NonNull Call<WebSite> call,@NonNull Throwable t) {
 
                     }
                 });
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             //fetch new data
             mService.getSources().enqueue(new Callback<WebSite>() {
                 @Override
-                public void onResponse(Call<WebSite> call, Response<WebSite> response) {
+                public void onResponse(@NonNull Call<WebSite> call,@NonNull Response<WebSite> response) {
                     adapter = new ListSourceAdapter(getBaseContext(),response.body());
                     adapter.notifyDataSetChanged();
                     listWebsite.setAdapter(adapter);
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<WebSite> call, Throwable t) {
+                public void onFailure(@NonNull Call<WebSite> call,@NonNull Throwable t) {
 
                 }
             });

@@ -85,7 +85,7 @@ public class ListSourceAdapter extends RecyclerView.Adapter<ListSourceViewHolder
                     }
 
                     @Override
-                    public void onFailure(Call<IconBetterIdea> call, Throwable t) {
+                    public void onFailure(@NonNull Call<IconBetterIdea> call,@NonNull Throwable t) {
 
                     }
                 });
