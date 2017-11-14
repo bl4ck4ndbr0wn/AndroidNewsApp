@@ -1,6 +1,7 @@
 package com.alphaclicksolutions.ju5tu5.androidnewsapp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.Common.Common;
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.Interface.IconBetterIdeaService;
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.Interface.ItemClickListener;
+import com.alphaclicksolutions.ju5tu5.androidnewsapp.ListNews;
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.Model.IconBetterIdea;
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.Model.WebSite;
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.R;
@@ -35,8 +37,10 @@ class ListSourceViewHolder extends RecyclerView.ViewHolder
 
     public ListSourceViewHolder(View itemView){
         super(itemView);
-        source_image=(CircleImageView)itemView.findViewById(R.id.source_image);
-        source_title=(TextView)itemView.findViewById(R.id.source_name);
+        source_image=itemView.findViewById(R.id.source_image);
+        source_title=itemView.findViewById(R.id.source_name);
+
+        itemView.setOnClickListener(this);
     }
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
@@ -94,7 +98,10 @@ public class ListSourceAdapter extends RecyclerView.Adapter<ListSourceViewHolder
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-                //Implement part 2.
+                Intent intent = new Intent(context, ListNews.class);
+                intent.putExtra("source",webSite.getSources().get(position).getId());
+                intent.putExtra("sortBy",webSite.getSources().get(position).getSortByAvailable().get(0));
+                context.startActivity(intent);
 
             }
         });

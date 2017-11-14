@@ -20,14 +20,16 @@
             android:layout_width="0dp"
             android:scaleType="centerCrop"
             android:layout_height="wrap_content"/>
-        
+
         <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
             android:id="@+id/source_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="8"
             android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"></TextView>
+            android:textStyle="bold"></TextView>
     </LinearLayout>
 
 </android.support.v7.widget.CardView>
