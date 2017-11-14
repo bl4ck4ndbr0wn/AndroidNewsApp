@@ -1,6 +1,7 @@
 package com.alphaclicksolutions.ju5tu5.androidnewsapp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.Common.ISO8601Parse;
+import com.alphaclicksolutions.ju5tu5.androidnewsapp.DetailArticle;
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.Interface.ItemClickListener;
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.Model.Article;
 import com.alphaclicksolutions.ju5tu5.androidnewsapp.R;
@@ -82,15 +84,17 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsViewHolder>{
         {
             ex.printStackTrace();
         }
-        holder.article_time.setRefenceTime(date.getTime());
+        holder.article_time.setReferenceTime(date.getTime());
 
         //Set Event Click
-        holder.setItemClickListener((new ItemClickListener() {
+        holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-
+                Intent detail = new Intent(context, DetailArticle.class);
+                detail.putExtra("webURL", articleList.get(position).getUrl());
+                context.startActivity(detail);
             }
-        }));
+        });
 
     }
 

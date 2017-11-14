@@ -12,9 +12,8 @@ import com.alphaclicksolutions.ju5tu5.androidnewsapp.Remote.RetrofitClient;
  */
 
 public class Common {
-    private static final String BASE_URL="https://newsapi.org/";
-
     public static  final String API_KEY="ac047ea28a3645aea158059da6661720";
+    private static final String BASE_URL = "https://newsapi.org/";
 
     public static NewsService getNewsService()
     {
@@ -23,6 +22,17 @@ public class Common {
     public static IconBetterIdeaService getIconService()
     {
         return IconBetterIdeaClient.getClient().create(IconBetterIdeaService.class);
+    }
+
+    // https://newsapi.org/v1/articles?source=the-next-web&sortBy=latest&apiKey=ac047ea28a3645aea158059da6661720
+    public static String getApiUrl(String source, String sortBy, String apiKEY) {
+        StringBuilder apiUrl = new StringBuilder("https://newsapi.org/v1/articles?source=");
+        return apiUrl.append(source)
+                .append("&sortBy=")
+                .append(sortBy)
+                .append("&apiKey=")
+                .append(apiKEY)
+                .toString();
     }
 
 }
